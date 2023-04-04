@@ -69,7 +69,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void SetLatestPlayerButton(SimonButton latest)
+    public void SetLatestPlayerButton(SimonButton latest)
     {
         lastPlayerInput = latest;
         playerInputPosition++;
