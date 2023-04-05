@@ -7,13 +7,18 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField]
     SimonButton[] buttons;
+    static int victoryNumber = 10;
     int roundNumber = 5;
-    SimonButton[] sequence;
+    SimonButton[] sequence = new SimonButton[victoryNumber];
     SimonButton lastPlayerInput;
     int playerInputPosition = 0;
-    int victoryNumber = 10;
     bool nextRound = false;
     
+    void Start()
+    {
+        playGame();
+    }
+
     void playGame()
     {
         while (!checkWinCondition())
@@ -29,7 +34,7 @@ public class GameManager : MonoBehaviour
         var r = new System.Random();
         for(int i = 0; i< roundNumber; i++)
         {
-            int step = r.Next(buttons.Length+1);
+            int step = r.Next(buttons.Length);
             sequence[i] = buttons[step];
         }
     }
@@ -37,8 +42,13 @@ public class GameManager : MonoBehaviour
     IEnumerator showSequence()
     {
         //make uninteractible
+        foreach (SimonButton button in buttons)
+        {
+            button.interactable = false;
+        }
         for(int i = 0; i< sequence.Length; i++)
         {
+            Debug.Log(i);
             yield return new WaitForSeconds(0.5f);
             sequence[i].AIClick();
         }
@@ -47,6 +57,10 @@ public class GameManager : MonoBehaviour
     void letPlayerPlay()
     {
         //make interactible
+        foreach (SimonButton button in buttons)
+        {
+            button.interactable = true;
+        }
         while (!nextRound)
         {
             takePlayerInput();
@@ -55,7 +69,6 @@ public class GameManager : MonoBehaviour
 
     void takePlayerInput()
     {
-        SetLatestPlayerButton();
         playerInputPosition++;
         checkPlayerInput();
     }

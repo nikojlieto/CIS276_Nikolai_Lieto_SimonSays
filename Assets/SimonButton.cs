@@ -18,7 +18,7 @@ public class SimonButton : Button
 
     private void SetPlayerButton()
     {
-        gameManager.SetLatestPlayerButton(this.gameObject);
+        gameManager.SetLatestPlayerButton(this);
     }
 
     public void AIClick()
