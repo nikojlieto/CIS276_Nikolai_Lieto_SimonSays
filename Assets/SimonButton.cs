@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class SimonButton : Button
 {
+    [SerializeField]
+    //public AudioSource audioSource;
     private Image buttonImage;
     private GameManager gameManager;
     
@@ -28,6 +30,7 @@ public class SimonButton : Button
 
     private IEnumerator ChangeColorOnAIClick(float time)
     {
+        //audioSource.Play();
         Color initialColor = colors.normalColor;
         image.color = colors.pressedColor;
         yield return new WaitForSeconds(time);
