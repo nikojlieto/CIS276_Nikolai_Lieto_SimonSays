@@ -40,7 +40,6 @@ public class GameManager : MonoBehaviour
     {       //check if you won before continuing
             //right now it continues anyway...?
             //tried moving win condition check from here and things got worse ;_;
-
             if(checkWinCondition())
             {
                 winDisplay.gameObject.SetActive(true);
@@ -78,6 +77,7 @@ public class GameManager : MonoBehaviour
             Debug.Log("button "+i);
             yield return new WaitForSeconds(1f);
             //some issue here?
+            //could be array length
             sequence[i].AIClick();
         }
     }
@@ -95,28 +95,22 @@ public class GameManager : MonoBehaviour
     public void SetLatestPlayerButton(SimonButton latest)
     {
         lastPlayerInput = latest;
-        //check whether to continue to next round
-        if(playerInputPosition == arraySize)
-        {
-            roundNumber++;
-            //try moving victory check here?
-            //it did not work for sure!
-                arraySize= arraySize+2;
-                roundDisplay.text = "Round: "+ roundNumber;
-                sequence = new SimonButton[arraySize];
-                playGame();  
-        } else {
-            //check if input matches, if not restart round
-            if(sequence[playerInputPosition] != lastPlayerInput)
+        if(sequence[playerInputPosition] != lastPlayerInput)
             {
                 playerInputPosition = 0;
                 StartCoroutine(showSequence());
                 letPlayerPlay();
             } else {
                 playerInputPosition++;
+                if(playerInputPosition == arraySize)
+                {
+                    roundNumber++;
+                    arraySize= arraySize+2;
+                    roundDisplay.text = "Round: "+ roundNumber;
+                    sequence = new SimonButton[arraySize];
+                    playGame();  
+                }
             }
-        }
-        
     }
 
     bool checkWinCondition()
